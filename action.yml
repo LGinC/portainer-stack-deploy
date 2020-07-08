@@ -1,0 +1,28 @@
+name: 'portainer stack deploy'
+description: 'Github Action for portainer, continuous deploy image to portainer by remote endpoint'
+author: 'LGinC <liguo1976@outlook.com>'
+branding: 
+ icon: 'portainer'
+ color: 'blue'
+inputs:
+  serverurl:
+    description: 'portainer server url'
+    required: true
+  username:
+    description: 'portainer admin user name'
+    required: true
+  password:
+    description: 'portainer admin user password'
+    required: true
+  endpointId:
+    description: 'portainer EndpointId,default 1'
+    required: false
+  stackname:
+    description: 'name of stack'
+    required: true
+  docker_compose:
+    description: 'content of docker-compose.yml'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

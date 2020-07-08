@@ -1,0 +1,46 @@
+name: MyAction
+
+on:
+  push:
+    branches: [master]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: LGinC/portainer-stack-deploy@master
+      with:
+        serverurl: http://10.2.27.212:9000
+        username: admin
+        password: 123
+        endpointId: 2
+        stackname: elk
+        docker_compose: |-
+version: "2"
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.8.0
+    container_name: es
+    environment:
+    - discovery.type=single-node
+    ports:
+    - 9200:9200
+    - 9300:9300
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.8.0
+    container_name: kibana
+    ports:
+    - 5601:5601
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:7.8.0
+    container_name: filebeat
+#    privileged: true
+    environment:
+#    - setup.kibana.host=kibana:5601
+    - output.elasticsearch.hosts=["elasticsearch:9200"]
+    user: root
+    volumes:
+    - "/filebeat.docker.yml:/usr/share/filebeat/filebeat.yml:ro"
+    - "/var/lib/docker/containers:/var/lib/docker/containers:ro"
+    - "/var/run/docker.sock:/var/run/docker.sock:ro"
