@@ -16,7 +16,7 @@ jobs:
         password: 123
         endpointId: 2
         stackname: elk
-        docker_compose: |-
+        docker_compose: >
 version: "2"
 services:
   elasticsearch:
