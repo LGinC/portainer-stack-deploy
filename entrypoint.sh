@@ -28,7 +28,9 @@ if [ $length > 0 ]; then
 fi
 
 #create stacks
-compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g')# version："2"  -> version:\"2\"
+echo "$INPUT_DOCKER_COMPOSE"
+echo
+compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g') # version："2"  -> version:\"2\"
 echo "$compose"
 echo
 result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type>
