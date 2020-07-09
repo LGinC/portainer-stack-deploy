@@ -38,12 +38,12 @@ echo
 echo 'create stack  : '${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2'
 
 echo
-echo "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"'${compose}'\",\"Env\":[]}"
+#echo "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}"
 
 result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
 --header 'Authorization: Bearer '${token}'' \
 --header 'Content-Type: application/json' \
---data-raw "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"'${compose}'\",\"Env\":[]}")
+--data-raw "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}")
 echo "$result"
 echo
 message=$(echo $result | jq -r '.message')
