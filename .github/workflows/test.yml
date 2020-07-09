@@ -15,7 +15,7 @@ jobs:
         username: ${{ secrets.PORTAINER_USERNAME }}
         password: ${{ secrets.PORTAINER_PASSWORD }}
         endpointId: 1
-        stackname: destinyApi
+        stackname: destinyapi
         docker_compose: |
           version: "2"
           services:

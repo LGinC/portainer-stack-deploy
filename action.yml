@@ -19,7 +19,7 @@ inputs:
     required: false
     default: 1
   stackname:
-    description: 'name of stack'
+    description: 'name of stack, lowercase'
     required: true
   docker_compose:
     description: 'content of docker-compose.yml'
