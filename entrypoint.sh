@@ -30,13 +30,13 @@ fi
 #create stacks
 echo "$INPUT_DOCKER_COMPOSE"
 echo
-compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g') # version："2"  -> version:\"2\"
+compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g' | sed ":a;N;s/\\n/\\\\n/g;ta") # replace charactor  "->\"   \n -> \\n
 echo "$compose"
 echo
 result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type>
 --header 'Authorization: Bearer '${token}'' \
 --header 'Content-Type: application/json' \
---data-raw '{"Name":"'${INPUT_STACKNAME}'","StackFileContent":"'"""${compose}"""'","Env":[]}')
+--data-raw '{"Name":"'${INPUT_STACKNAME}'","StackFileContent":"'${compose}'","Env":[]}')
 echo "$result"
 message=$(echo $result | jq -r '.message')
 if [ -n "$message" ]; then
