@@ -19,6 +19,7 @@ token=$(echo $Token_Result | jq -r '.jwt')
 #get stacks
 stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 --header ''$token'')
+echo 'get stacks: '$stacks''
 length=$(echo $stacks | jq '.|length')
 if [ $length > 0 ]; then
 #find the stack name of INPUT_STACKNAME
