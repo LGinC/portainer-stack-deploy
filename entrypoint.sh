@@ -29,7 +29,7 @@ fi
 
 #create stacks
 
-compose=$(echo $INPUT_DOCKER_COMPOSE  | sed 's/\"/\\\"/g')
+compose=$(echo $INPUT_DOCKER_COMPOSE) # | sed 's/\"/\\\"/g')
 echo "docker-compose: \"{$compose}\"
 result=$(curl POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
 -H 'Authorization: Bearer '$token'' \
