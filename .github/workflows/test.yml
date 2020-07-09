@@ -13,7 +13,7 @@ jobs:
       with:
         serverurl: http://1065.cloud:8862
         username: ${{ secrets.PORTAINER_USERNAME }}
-        password: ${{ secrets.PORTAINER_USERNAME }}
+        password: ${{ secrets.PORTAINER_PASSWORD }}
         endpointId: 2
         stackname: destinyApi
         docker_compose: |
