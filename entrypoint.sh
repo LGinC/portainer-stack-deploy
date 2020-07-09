@@ -7,7 +7,7 @@ if [ -z "$INPUT_ENDPOINTID" ]; then
  $INPUT_ENDPOINTID=1
 fi
 
-$INPUT_STACKNAME=$(typeset -l $INPUT_STACKNAME) #ToLowerCase
+stack=$(typeset -l $INPUT_STACKNAME) #ToLowerCase
 
 #auth
 echo
@@ -25,7 +25,7 @@ stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 length=$(echo $stacks | jq '.|length')
 if [ $length > 0 ]; then
 #find the stack name of INPUT_STACKNAME
-  stackId=$(echo $stacks | jq '.[] | select(.Name=="'$INPUT_STACKNAME'") | .Id')
+  stackId=$(echo $stacks | jq '.[] | select(.Name=="'$stack'") | .Id')
   if [ $stackId > 0 ]; then
  #find the stack id, and delete it
     echo
@@ -45,7 +45,7 @@ echo
 result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
 --header 'Authorization: Bearer '${token}'' \
 --header 'Content-Type: application/json' \
---data-raw "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}")
+--data-raw "{\"Name\":\"'${stack}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}")
 echo "$result"
 echo
 message=$(echo $result | jq -r '.message')
