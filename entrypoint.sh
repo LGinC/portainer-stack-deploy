@@ -7,6 +7,8 @@ if [ -z "$INPUT_ENDPOINTID" ]; then
  $INPUT_ENDPOINTID=1
 fi
 
+$INPUT_STACKNAME=$(typeset -l $INPUT_STACKNAME) #ToLowerCase
+
 #auth
 echo
 echo 'get token  : '${INPUT_SERVERURL}'/api/auth'
@@ -47,7 +49,7 @@ result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpoin
 echo "$result"
 echo
 message=$(echo $result | jq -r '.message')
-if [ -n "$message" && $message != 'null' ]; then
+if [ $message != 'null' ]; then
   echo 'create failed:    '$message''
   exit 1
 fi
