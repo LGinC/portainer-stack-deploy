@@ -28,12 +28,13 @@ if [ $length > 0 ]; then
 fi
 
 #create stacks
-echo "docker-compose: \"${INPUT_DOCKER_COMPOSE}\""
-result=$(curl POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
--H 'Authorization: Bearer '$token'' \
--H 'Content-Type: application/json' \
---data-raw "{\"Name\":\"${INPUT_STACKNAME}\",\"StackFileContent\":\"$INPUT_DOCKER_COMPOSE\"}")
-echo $result
+compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g') # version："2"  -> version:\"2\"
+result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type>
+ --header 'Authorization: Bearer '${token}'' \
+ --header 'Content-Type: application/json' \
+ --data-raw '{"Name":"'${INPUT_STACKNAME}'","StackFileContent":"'"${compose}"'","Env":[]}')
+
+echo "$result"
 message=$(echo $result | jq -r '.message')
 if [ -n "$message" ]; then
    echo 'create failed:'$message''
