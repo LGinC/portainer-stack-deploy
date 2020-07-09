@@ -7,16 +7,12 @@ if [ -z "$INPUT_ENDPOINTID" ]; then
  $INPUT_ENDPOINTID=1
 fi
 
-echo "docker-compose: $INPUT_DOCKER_COMPOSE"
-
-
 #auth
 Token_Result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/auth' \
 --data-raw '{"Username":"'$INPUT_USERNAME'", "Password":"'$INPUT_PASSWORD'"}')
 # Token_Result = {"jwt":"xxxxxxxx"}
-echo 'Token_Result: '$Token_Result''
+#todo: get token failed  exit 1
 token=$(echo $Token_Result | jq -r '.jwt')
-echo 'token is: '$token''
 #get stacks
 stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 --header 'Authorization: Bearer '$token'')
@@ -33,6 +29,7 @@ if [ $length > 0 ]; then
 fi
 
 #create stacks
+echo ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2'
 result=$(curl POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
 -H 'Authorization: Bearer '$token'' \
 -H 'Content-Type: application/json' \
