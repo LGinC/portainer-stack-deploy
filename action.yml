@@ -17,6 +17,7 @@ inputs:
   endpointId:
     description: 'portainer EndpointId,default 1'
     required: false
+    default: 1
   stackname:
     description: 'name of stack'
     required: true
