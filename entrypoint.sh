@@ -19,7 +19,7 @@ token=$(echo $Token_Result | jq -r '.jwt')
 echo 'token is: '$token''
 #get stacks
 stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
---header ''$token'')
+--header 'Authorization: Bearer '$token'')
 echo 'get stacks: '$stacks''
 length=$(echo $stacks | jq '.|length')
 if [ $length > 0 ]; then
