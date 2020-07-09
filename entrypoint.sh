@@ -28,15 +28,18 @@ if [ $length > 0 ]; then
 fi
 
 #create stacks
-compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g') # version："2"  -> version:\"2\"
+compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g')# version："2"  -> version:\"2\"
+echo "$compose"
+echo
 result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type>
- --header 'Authorization: Bearer '${token}'' \
- --header 'Content-Type: application/json' \
- --data-raw '{"Name":"'${INPUT_STACKNAME}'","StackFileContent":"'"${compose}"'","Env":[]}')
-
+--header 'Authorization: Bearer '${token}'' \
+--header 'Content-Type: application/json' \
+--data-raw '{"Name":"'${INPUT_STACKNAME}'","StackFileContent":"'"${compose}"'","Env":[]}')
 echo "$result"
 message=$(echo $result | jq -r '.message')
 if [ -n "$message" ]; then
-   echo 'create failed:'$message''
-   exit 1
+  echo 'create failed:'$message''
+  exit 1
 fi
+exit 0
+
