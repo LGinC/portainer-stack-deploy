@@ -7,8 +7,7 @@ if [ -z "$INPUT_ENDPOINTID" ]; then
  $INPUT_ENDPOINTID=1
 fi
 
-stack=$(typeset -l $INPUT_STACKNAME) #ToLowerCase
-
+stack=$(echo "$INPUT_STACKNAME" | tr 'A-Z' 'a-z') #ToLowerCase
 #auth
 echo
 echo 'get token  : '${INPUT_SERVERURL}'/api/auth'
