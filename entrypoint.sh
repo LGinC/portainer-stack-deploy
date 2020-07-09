@@ -49,7 +49,7 @@ echo "$result"
 echo
 message=$(echo $result | jq -r '.message')
 if [ $message != 'null' ]; then
-  echo 'create failed:    '$message''
+  echo "create failed: $message"
   exit 1
 fi
 exit 0
