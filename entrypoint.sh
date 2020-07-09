@@ -30,11 +30,11 @@ fi
 #create stacks
 
 compose=$(echo $INPUT_DOCKER_COMPOSE  | sed 's/\"/\\\"/g')
-echo 'docker-compose: '"$compose"''
+echo 'docker-compose: "'$compose'"
 result=$(curl POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
 -H 'Authorization: Bearer '$token'' \
 -H 'Content-Type: application/json' \
---data-raw '{"Name":"'$INPUT_STACKNAME'","StackFileContent":'"$compose"'}")
+--data-raw '{"Name":"'$INPUT_STACKNAME'","StackFileContent":"'$compose'"}')
 echo $result
 message=$(echo $result | jq -r '.message')
 if [ -n "$message" ]; then
