@@ -36,7 +36,7 @@ echo
 result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type>
 --header 'Authorization: Bearer '${token}'' \
 --header 'Content-Type: application/json' \
---data-raw '{"Name":"'${INPUT_STACKNAME}'","StackFileContent":"'"${compose}"'","Env":[]}')
+--data-raw '{"Name":"'${INPUT_STACKNAME}'","StackFileContent":"'"""${compose}"""'","Env":[]}')
 echo "$result"
 message=$(echo $result | jq -r '.message')
 if [ -n "$message" ]; then
