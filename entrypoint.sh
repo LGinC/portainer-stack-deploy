@@ -14,8 +14,9 @@ echo "docker-compose: $INPUT_DOCKER_COMPOSE"
 Token_Result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/auth' \
 --data-raw '{"Username":"'$INPUT_USERNAME'", "Password":"'$INPUT_PASSWORD'"}')
 # Token_Result = {"jwt":"xxxxxxxx"}
+echo 'Token_Result: '$Token_Result''
 token=$(echo $Token_Result | jq -r '.jwt')
-
+echo 'token is: '$token''
 #get stacks
 stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 --header ''$token'')
