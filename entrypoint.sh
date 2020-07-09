@@ -28,13 +28,11 @@ if [ $length > 0 ]; then
 fi
 
 #create stacks
-
-compose=$(echo $INPUT_DOCKER_COMPOSE) # | sed 's/\"/\\\"/g')
-echo "docker-compose: \"{$compose}\"
+echo "docker-compose: \"{$INPUT_DOCKER_COMPOSE}\"
 result=$(curl POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
 -H 'Authorization: Bearer '$token'' \
 -H 'Content-Type: application/json' \
---data-raw "{\"Name\":\"${INPUT_STACKNAME}\",\"StackFileContent\":\"${compose}\"}")
+--data-raw "{\"Name\":\"${INPUT_STACKNAME}\",\"StackFileContent\":\"$INPUT_DOCKER_COMPOSE\"}")
 echo $result
 message=$(echo $result | jq -r '.message')
 if [ -n "$message" ]; then
