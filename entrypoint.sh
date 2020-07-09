@@ -47,7 +47,7 @@ result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpoin
 echo "$result"
 echo
 message=$(echo $result | jq -r '.message')
-if [ -n "$message" ]; then
+if [ -n "$message" && $message != 'null' ]; then
   echo 'create failed:    '$message''
   exit 1
 fi
