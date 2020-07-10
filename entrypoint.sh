@@ -24,11 +24,11 @@ stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 echo "stacks: $stacks"
 length=$(echo $stacks | jq '.|length')
 echo "length: $length"
-if [ $length > 0 ]; then
+if [ [ $length > 0 ] ]; then
 #find the stack name of INPUT_STACKNAME
   stackId=$(echo $stacks | jq '.[] | select(.Name=="'$stack'") | .Id')
   echo "stackId: $stackId"
-  if [ $stackId > 0 ]; then
+  if [ [ $stackId > 0 ] ]; then
  #find the stack id, and delete it
     echo
     echo 'delete stack id='$stackId'  '${INPUT_SERVERURL}'/api/stacks/'${stackId}' '
