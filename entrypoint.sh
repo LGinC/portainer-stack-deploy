@@ -21,11 +21,13 @@ echo
 echo 'get statcks :  '${INPUT_SERVERURL}'/api/stacks'
 stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 --header 'Authorization: Bearer '$token'')
+echo "stacks: $stacks"
 length=$(echo $stacks | jq '.|length')
+echo "length: $length"
 if [ $length > 0 ]; then
 #find the stack name of INPUT_STACKNAME
-  echo "$stackId"
   stackId=$(echo $stacks | jq '.[] | select(.Name=="'$stack'") | .Id')
+  echo "stackId: $stackId"
   if [ $stackId > 0 ]; then
  #find the stack id, and delete it
     echo
