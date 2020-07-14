@@ -38,7 +38,8 @@ fi
 
 echo 'pull image: '$INPUT_IMAGENAME''
 #pull image
-curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME''
+curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
+-H 'Authorization: Bearer '${token}''
 
 
 #create stacks
