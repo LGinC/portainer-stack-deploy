@@ -21,8 +21,11 @@ inputs:
   stackname:
     description: 'name of stack, lowercase'
     required: true
+  imagename:
+    description: 'deploy image name'
+    required: true
   docker_compose:
-    description: 'content of docker-compose.yml'
+    description: 'content of docker-compose.yml, just support version 2'
     required: true
 runs:
   using: 'docker'

@@ -31,10 +31,15 @@ if [ length > 0  ]; then
   if [ stackId > 0 ]; then
  #find the stack id, and delete it
     echo
-    echo 'delete stack id='$stackId'  '${INPUT_SERVERURL}'/api/stacks/'${stackId}' '
+    echo 'delete stack id='$stackId'  '${INPUT_SERVERURL}'/api/stacks/'${stackId}''
     curl --location --request DELETE ''${INPUT_SERVERURL}'/api/stacks/'${stackId}'' --header 'Authorization: Bearer '$token''
   fi
 fi
+
+echo 'pull image: '$INPUT_IMAGENAME''
+#pull image
+curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME''
+
 
 #create stacks
 compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g' | sed ":a;N;s/\\n/\\\\n/g;ta") # replace charactor  "->\"   \n -> \\n
