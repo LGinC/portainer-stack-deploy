@@ -42,7 +42,9 @@ docker_compose: |
 <br>
     
 # Example usage
-The following will pull image mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine, and deploy docker-compose to portainer
+The following will pull image mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine, and deploy docker-compose to portainer.
+The following will delete it if same name stack is existed.
+执行顺序为 如果有同名的stack会先删除此stack，然后拉取镜像，部署docker-compose内容到stack
 ```
 - name: deploy to portainer
   uses: LGinC/portainer-stack-deploy@master
