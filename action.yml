@@ -2,7 +2,7 @@ name: 'portainer stack deploy'
 description: 'Github Action for portainer, continuous deploy image to portainer by remote endpoint'
 author: 'LGinC <liguo1976@outlook.com>'
 branding: 
- icon: 'portainer'
+ icon: 'arrow-down-right'
  color: 'blue'
 inputs:
   serverurl:
