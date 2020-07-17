@@ -35,7 +35,7 @@ like this:
 docker_compose: |
   version: "2"
   services:
-  destinyapi:
+  dotnet_test:
     image:  mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
     container_name: dotnet_runtime
 ```
@@ -58,7 +58,7 @@ The following will delete it if same name stack is existed.
     docker_compose: |
       version: "2"
       services:
-        destinyapi:
+        dotnet_test:
           image:  mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
           container_name: dotnet_runtime       
 ```
