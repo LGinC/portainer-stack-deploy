@@ -24,7 +24,7 @@ portainer终结点id，默认是1,即第一个，一般为localhost
 服务栈的名称，会在stacks列表里显示
 
 ## imagename
-**required** name of pull image, like:  mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine <br>
+**required** name of pull image, like:  "mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine" <br>
 将会进行拉取镜像的镜像名
 
 ## docker_compose
@@ -54,7 +54,7 @@ The following will delete it if same name stack is existed.
     password: ${{ secrets.PORTAINER_PASSWORD }}
     endpointId: 1
     stackname: dotnet_test
-    imagename: mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
+    imagename: "mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine"
     docker_compose: |
       version: "2"
       services:
