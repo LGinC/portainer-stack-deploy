@@ -58,7 +58,9 @@ if [ $length -gt 0  ]; then
     echo "update stack id=$stackId"
     #找到同名stack，更新stack
     update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
-    update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' --header 'Authorization: Bearer '$token'' --data-raw  "{\"id\": $id\"StackFileContent\":\"${compose}\",\"Env\":[]}")
+    update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' \
+     --header 'Authorization: Bearer '$token'' \
+     --data-raw "{\"id\":${stackId},\"StackFileContent\":\"${compose}\",\"Env\":[]}")
     update_result_msg=$(echo "$update_result" | jq -r '.message')
     if [ "$update_result_msg" != "null" ]; then
       echo "update stack failed"
