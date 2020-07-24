@@ -7,8 +7,9 @@ if [ -z "$INPUT_ENDPOINTID" ]; then
  INPUT_ENDPOINTID=1
 fi
 
-#compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g' | sed ":a;N;s/\\n/\\\\n/g;ta") # replace charactor  "->\"   \n -> \\n
-compose="$INPUT_DOCKER_COMPOSE"
+compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g' | sed ":a;N;s/\\n/\\\\n/g;ta") # replace charactor  "->\"   \n -> \\n
+echo "compose:$compose"
+#compose="$INPUT_DOCKER_COMPOSE"
 #把stack name转为小写
 stack=$(echo "$INPUT_STACKNAME" | tr "[:upper:]" "[:lower:]") #ToLowerCase
 
@@ -55,7 +56,7 @@ if [ $length -gt 0  ]; then
     echo
     echo "update stack id=$stackId"
     #找到同名stack，更新stack
-    update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
+    update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": "'$content'}"')
     update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' --header 'Authorization: Bearer '$token'' --data-raw "$update_content")
     update_result_msg=$(echo "$update_result" | jq -r '.message')
     if [ "$update_result_msg" != "null" ]; then
