@@ -19,7 +19,7 @@ Token_Result=$(curl --location --request POST ''$INPUT_SERVERURL'/api/auth' \
 # Token_Result = {"jwt":"xxxxxxxx"}
 #todo: get token failed  exit 1
 token=$(echo "$Token_Result" | jq -r '.jwt')
-if [ $token = 'null' ]; then
+if [ "$token" = "null" ]; then
   echo 'Authorization failed'
   echo "$Token_Result"
   exit 1
@@ -53,12 +53,12 @@ if [ $length -gt 0  ]; then
   if [ $stackId -gt 0 ]; then
  #find the stack id, and delete it
     echo
-    echo 'update stack id='$stackId''
+    echo "update stack id=$stackId"
     #找到同名stack，更新stack
     update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
     update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' --header 'Authorization: Bearer '$token'' --data-raw "$update_content")
     update_result_msg=$(echo "$update_result" | jq -r '.message')
-    if [ $update_result_msg != 'null' ]; then
+    if [ "$update_result_msg" != "null" ]; then
       echo 'update stack failed'
       echo 'body:   ${update_content}'
       echo 'result: ${update_result}'
@@ -86,7 +86,7 @@ echo "$result"
 echo
 #如果结果中message不为空则说明有异常
 message=$(echo $result | jq -r '.message')
-if [ $message != 'null' ]; then
+if [ "$message" != "null" ]; then
   echo "create failed: $message"
   exit 1
 fi
