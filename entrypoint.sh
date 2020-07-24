@@ -57,10 +57,11 @@ if [ $length -gt 0  ]; then
     echo
     echo "update stack id=$stackId"
     #找到同名stack，更新stack
-    update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
+    # update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
+    update_content="{\"id\":${stackId},\"StackFileContent\":\"${compose}\",\"Env\":[]}"
     update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' \
      --header 'Authorization: Bearer '$token'' \
-     --data-raw "{\"id\":${stackId},\"StackFileContent\":\"${compose}\",\"Env\":[]}")
+     --data-raw "$update_content")
     update_result_msg=$(echo "$update_result" | jq -r '.message')
     if [ "$update_result_msg" != "null" ]; then
       echo "update stack failed"
@@ -82,10 +83,11 @@ echo 'create stack  : '${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOIN
 echo
 #echo "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}"
 #输出结果
+create_content="{\"Name\":\"'${stack}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}"
 result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2' \
 --header 'Authorization: Bearer '${token}'' \
 --header 'Content-Type: application/json' \
---data-raw "{\"Name\":\"'${stack}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}")
+--data-raw "$create_content")
 echo "$result"
 echo
 #如果结果中message不为空则说明有异常
