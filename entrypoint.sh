@@ -59,9 +59,9 @@ if [ $length -gt 0  ]; then
     update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' --header 'Authorization: Bearer '$token'' --data-raw "$update_content")
     update_result_msg=$(echo "$update_result" | jq -r '.message')
     if [ "$update_result_msg" != "null" ]; then
-      echo 'update stack failed'
-      echo 'body:   ${update_content}'
-      echo 'result: ${update_result}'
+      echo "update stack failed"
+      echo "body:   $update_content"
+      echo "result: $update_result"
       exit 1
     fi
     exit 0
