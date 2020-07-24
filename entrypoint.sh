@@ -8,7 +8,7 @@ if [ -z "$INPUT_ENDPOINTID" ]; then
 fi
 
 #compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g' | sed ":a;N;s/\\n/\\\\n/g;ta") # replace charactor  "->\"   \n -> \\n
-compose=$INPUT_DOCKER_COMPOSE
+compose="$INPUT_DOCKER_COMPOSE"
 echo "compose:            $compose"
 #compose="$INPUT_DOCKER_COMPOSE"
 #把stack name转为小写
