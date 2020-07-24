@@ -47,7 +47,7 @@ if [ $length -gt 0  ]; then
     update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
     update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' --header 'Authorization: Bearer '$token'' --data-raw "$update_content")
     update_result_msg=$(echo $result | jq -r '.message')
-    if [  $message != 'null' ] ; then
+    if [  $update_result_msg != 'null' ] ; then
       echo 'update stack failed'
       echo 'body:   ${update_content}'
       echo 'result: ${update_result}'
