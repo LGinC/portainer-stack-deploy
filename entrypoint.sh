@@ -4,22 +4,29 @@ set -e
 
 # set default endpointid=1
 if [ -z "$INPUT_ENDPOINTID" ]; then
- $INPUT_ENDPOINTID=1
+ INPUT_ENDPOINTID=1
 fi
 
+compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g' | sed ":a;N;s/\\n/\\\\n/g;ta") # replace charactor  "->\"   \n -> \\n
+
 #把stack name转为小写
-stack=$(echo "$INPUT_STACKNAME" | tr 'A-Z' 'a-z') #ToLowerCase
+stack=$(echo "$INPUT_STACKNAME" | tr [:upper:] [:lower:]) #ToLowerCase
 
 #请求/api/auth 进行身份验证  获取token
-echo 'get token  : '${INPUT_SERVERURL}'/api/auth'
-Token_Result=$(curl --location --request POST ''${INPUT_SERVERURL}'/api/auth' \
+echo "get token  : '$INPUT_SERVERURL'/api/auth"
+Token_Result=$(curl --location --request POST ''$INPUT_SERVERURL'/api/auth' \
 --data-raw '{"Username":"'$INPUT_USERNAME'", "Password":"'$INPUT_PASSWORD'"}')
 # Token_Result = {"jwt":"xxxxxxxx"}
 #todo: get token failed  exit 1
 token=$(echo $Token_Result | jq -r '.jwt')
+if [ $token = 'null' ]; then
+  echo 'Authorization failed'
+  echo "$Token_Result"
+  exit 1
+fi
 #get stacks
 echo
-echo 'get statcks :  '${INPUT_SERVERURL}'/api/stacks'
+echo 'get statcks :  '$INPUT_SERVERURL'/api/stacks'
 #请求/api/stacks 查询stack列表
 stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 --header 'Authorization: Bearer '$token'')
@@ -28,29 +35,38 @@ echo "stacks: $stacks"
 length=$(echo $stacks | jq '.|length')
 echo "length: $length"
 #如果长度大于0
-if [ length > 0  ]; then
+if [ $length -gt 0  ]; then
   #查找同名stack
   stackId=$(echo $stacks | jq '.[] | select(.Name=="'$stack'") | .Id') #find the stack name of INPUT_STACKNAME
   echo "stackId: $stackId"
-  if [ stackId > 0 ]; then
+  if [ $stackId -gt 0 ]; then
  #find the stack id, and delete it
     echo
-    echo 'delete stack id='$stackId'  '${INPUT_SERVERURL}'/api/stacks/'${stackId}''
-    #找到同名stack，通过stackId进行删除
-    curl --location --request DELETE ''${INPUT_SERVERURL}'/api/stacks/'${stackId}'' --header 'Authorization: Bearer '$token''
+    echo 'update stack id='$stackId''
+    #找到同名stack，更新stack
+    update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
+    update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' --header 'Authorization: Bearer '$token'' --data-raw "$update_content")
+    update_result_msg=$(echo $result | jq -r '.message')
+    if [  $message != 'null' ] ; then
+      echo 'update stack failed'
+      echo 'body:   ${update_content}'
+      echo 'result: ${update_result}'
+      exit 1
+    fi
+    exit 0
   fi
 fi
 
-echo 'pull image: '$INPUT_IMAGENAME''
-#pull image  
-#拉取镜像
-curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
--H 'Authorization: Bearer '${token}''
+# echo 'pull image: '$INPUT_IMAGENAME''
+# #pull image  
+# #拉取镜像
+# curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
+# -H 'Authorization: Bearer '${token}''
 
 
 #create stacks
 #创建stack
-compose=$(echo "$INPUT_DOCKER_COMPOSE" | sed 's#\"#\\"#g' | sed ":a;N;s/\\n/\\\\n/g;ta") # replace charactor  "->\"   \n -> \\n
+
 echo
 echo 'create stack  : '${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2'
 
@@ -70,4 +86,3 @@ if [ $message != 'null' ]; then
   exit 1
 fi
 exit 0
-
