@@ -23,6 +23,9 @@ portainer终结点id，默认是1,即第一个，一般为localhost
 **required** name of stack <br>
 服务栈的名称，会在stacks列表里显示
 
+## registry
+**required** address of registry, like:  empty for Docker Hub <br>
+
 ## imagename
 **required** name of pull image, like:  mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine <br>
 将会进行拉取镜像的镜像名
@@ -54,6 +57,7 @@ The following will delete it if same name stack is existed.
     password: ${{ secrets.PORTAINER_PASSWORD }}
     endpointId: 1
     stackname: dotnet_test
+    registry: ""
     imagename: mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
     docker_compose: |
       version: "2"
