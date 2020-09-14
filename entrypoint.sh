@@ -38,8 +38,9 @@ then
     curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
     -H "Authorization: Bearer $token"  -H "X-Registry-Auth: $base64Registry"
 else
+    base64Registry=$(echo "{\"serveraddress\":\"\"}" | base64)
     curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
-    -H "Authorization: Bearer $token"
+    -H "Authorization: Bearer $token  -H "X-Registry-Auth: $base64Registry"
 fi
 
 
