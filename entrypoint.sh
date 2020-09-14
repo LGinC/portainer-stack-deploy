@@ -31,16 +31,9 @@ fi
 #pull image  
 #拉取镜像
 echo "pull image: $INPUT_IMAGENAME"
-registry=$(echo "$INPUT_IMAGENAME" | awk -F'/' '{print $1}')
-if [[ "$registry" =~ "." ]]
-then
-    base64Registry=$(echo "{\"serveraddress\":\"$registry\"}" | base64)
-    curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
-    -H "Authorization: Bearer $token"  -H "X-Registry-Auth: $base64Registry"
-else
-    curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
-    -H "Authorization: Bearer $token"
-fi
+base64Registry=$(echo "{\"serveraddress\":\"$INPUT_REGISTRY\"}" | base64)
+curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPOINTID'/docker/images/create?fromImage='$INPUT_IMAGENAME'' \
+-H "Authorization: Bearer $token"  -H "X-Registry-Auth: $base64Registry"
 
 
 
