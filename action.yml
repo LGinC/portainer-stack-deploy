@@ -21,6 +21,10 @@ inputs:
   stackname:
     description: 'name of stack, lowercase'
     required: true
+  registry:
+    description: 'image registry'
+    required: false
+    default: ''
   imagename:
     description: 'deploy image name'
     required: true
