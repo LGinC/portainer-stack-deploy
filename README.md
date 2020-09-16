@@ -31,7 +31,7 @@ address of registry, like: myregistry.example.com (leave empty for Docker Hub) <
 将会进行拉取镜像的镜像名
 
 ## docker_compose
-**required** content of docker-compose.yml.  ps: portainer just support version: "2" <br>
+content of docker-compose.yml.  ps: portainer just support version: "2" <br>
 docker-compose.yml的内容 注意:portainer目前仅支持version: "2" <br>
 like this:
 ```
@@ -42,6 +42,7 @@ docker_compose: |
     image:  mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine
     container_name: dotnet_runtime
 ```
+leave empty for use the current docker-compose file content
 <br>
     
 # Example usage
