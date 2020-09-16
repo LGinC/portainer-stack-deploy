@@ -59,6 +59,7 @@ if [ $length -gt 0  ]; then
     if [ -z "$compose" ]; then
       #find the current compose file content
       #/api/stacks/${stackId}/file
+      echo "get statck file :  $INPUT_SERVERURL/api/stacks/$stackId/file"
       file_result=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks/'${stackId}/file'' \
        --header 'Authorization: Bearer '$token'')
       file_msg=$(echo "$file_result" | jq -r '.message')
@@ -67,13 +68,15 @@ if [ $length -gt 0  ]; then
         echo "result: $file_result"
         exit 1
       fi
+      echo "file: $file_result"
       compose=$(echo "$file_result" | jq '.StackFileContent')
+      update_content="{\"id\":${stackId},\"StackFileContent\":${compose},\"Env\":[]}"
+    else
+      update_content="{\"id\":${stackId},\"StackFileContent\":\"${compose}\",\"Env\":[]}"
     fi
     echo
     echo "update stack id=$stackId"
     #找到同名stack，更新stack
-    # update_content=$(jq -n -c -M --arg content "$compose" --arg id $stackId '{"id": $id, "StackFileContent": $content}')
-    update_content="{\"id\":${stackId},\"StackFileContent\":\"${compose}\",\"Env\":[]}"
     update_result=$(curl --location --request PUT ''${INPUT_SERVERURL}'/api/stacks/'${stackId}?endpointId=${INPUT_ENDPOINTID}'' \
      --header 'Authorization: Bearer '$token'' \
      --header 'Content-Type: application/json' \
