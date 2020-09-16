@@ -56,6 +56,19 @@ if [ $length -gt 0  ]; then
   echo "stackId: $stackId"
   if [ $stackId -gt 0 ]; then
  #find the stack id, and delete it
+    if [ -z "$compose" ] then
+      #find the current compose file content
+      #/api/stacks/${stackId}/file
+      file_result=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks/'${stackId}/file'' \
+       --header 'Authorization: Bearer '$token'')
+      file_msg=$(echo "$file_result" | jq -r '.message')
+      if [ "$file_msg" != "null" ]; then
+        echo "get stack file failed"
+        echo "result: $file_result"
+        exit 1
+      fi
+      compose=$(echo "$file_result" | jq '.StackFileContent')
+    fi
     echo
     echo "update stack id=$stackId"
     #找到同名stack，更新stack
