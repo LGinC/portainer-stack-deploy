@@ -56,7 +56,7 @@ if [ $length -gt 0  ]; then
   echo "stackId: $stackId"
   if [ $stackId -gt 0 ]; then
  #find the stack id, and delete it
-    if [ -z "$compose" ] then
+    if [ -z "$compose" ]; then
       #find the current compose file content
       #/api/stacks/${stackId}/file
       file_result=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks/'${stackId}/file'' \
