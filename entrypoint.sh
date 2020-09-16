@@ -41,7 +41,7 @@ curl --location --request POST ''${INPUT_SERVERURL}'/api/endpoints/'$INPUT_ENDPO
 
 #get stacks
 echo
-echo "get statcks :  $INPUT_SERVERURL/api/stacks"
+echo "get stacks :  $INPUT_SERVERURL/api/stacks"
 #请求/api/stacks 查询stack列表
 stacks=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks' \
 --header 'Authorization: Bearer '$token'')
@@ -59,7 +59,7 @@ if [ $length -gt 0  ]; then
     if [ -z "$compose" ]; then
       #find the current compose file content
       #/api/stacks/${stackId}/file
-      echo "get statck file :  $INPUT_SERVERURL/api/stacks/$stackId/file"
+      echo "get stack file :  $INPUT_SERVERURL/api/stacks/$stackId/file"
       file_result=$(curl --location --request GET ''${INPUT_SERVERURL}'/api/stacks/'${stackId}/file'' \
        --header 'Authorization: Bearer '$token'')
       file_msg=$(echo "$file_result" | jq -r '.message')
@@ -99,7 +99,10 @@ fi
 
 echo
 echo 'create stack  : '${INPUT_SERVERURL}'/api/stacks?endpointId='$INPUT_ENDPOINTID'&method=string&type=2'
-
+if [ -z "$compose" ]; then
+  echo "docker_compose can't be empty for create stack"
+  exit 1
+fi
 echo
 #echo "{\"Name\":\"'${INPUT_STACKNAME}'\",\"StackFileContent\":\"${compose}\",\"Env\":[]}"
 #输出结果
