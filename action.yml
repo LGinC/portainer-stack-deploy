@@ -30,7 +30,8 @@ inputs:
     required: true
   docker_compose:
     description: 'content of docker-compose.yml, just support version 2'
-    required: true
+    required: false
+    default: ''
 runs:
   using: 'docker'
   image: 'Dockerfile'
