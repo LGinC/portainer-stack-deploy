@@ -69,9 +69,10 @@ if [ $length -gt 0  ]; then
       fi
       echo "file: $file_result"
       compose=$(echo "$file_result" | jq '.StackFileContent')
+      update_content="{\"id\":${stackId},\"StackFileContent\":${compose},\"Env\":[]}"
+    else
+      update_content="{\"id\":${stackId},\"StackFileContent\":\"${compose}\",\"Env\":[]}"
     fi
-
-    update_content="{\"id\":${stackId},\"StackFileContent\":\"${compose}\",\"Env\":[]}"
     echo
     echo "update stack id=$stackId"
     #找到同名stack，更新stack
