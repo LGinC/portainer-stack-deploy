@@ -56,7 +56,7 @@ if [ $length -gt 0  ]; then
   #查找同名stack
   stackId=$(echo "$stacks" | jq '.[] | select(.Name=="'$stack'") | .Id') #find the stack name of INPUT_STACKNAME
   echo "stackId: $stackId"
-  if [ $stackId -gt 0 ]; then
+  if [[ -z $stackId && $stackId -gt 0 ]]; then
  #find the stack id, and delete it
     if [ -z "$compose" ]; then
       #find the current compose file content
