@@ -2,36 +2,49 @@ name: 'portainer stack deploy'
 description: 'Github Action for portainer, continuous deploy image to portainer by remote endpoint'
 author: 'LGinC <liguo1976@outlook.com>'
 branding: 
- icon: 'arrow-down-right'
- color: 'blue'
+  icon: 'arrow-down-right'
+  color: 'blue'
 inputs:
   serverurl:
     description: 'portainer server url'
     required: true
   username:
     description: 'portainer admin user name'
-    required: true
+    required: false
   password:
     description: 'portainer admin user password'
-    required: true
+    required: false
+  access_token:
+    description: 'portainer account access token'
+    required: false
   endpointId:
     description: 'portainer EndpointId,default 1'
     required: false
-    default: 1
+    default: "1"
   stackname:
     description: 'name of stack, lowercase'
     required: true
-  registry:
-    description: 'image registry'
+  imagenames:
+    description: 'names of pull images, a arrary'
     required: false
-    default: ''
-  imagename:
-    description: 'deploy image name'
-    required: true
+  env:
+    description: 'environments of stack'
+    required: false
+  variables:
+    description: 'these variables will be replaced in docker-compose file'
+    required: false
   docker_compose:
-    description: 'content of docker-compose.yml, just support version 2'
+    description: 'content of docker-compose.yml'
     required: false
-    default: ''
+  docker_compose_path:
+    description: 'docker-compose.yml in repository relative path'
+    required: false
+  repo_username:
+    description: 'username of git repository'
+    required: false
+  repo_password:
+    description: 'password of git repository'
+    required: false
 runs:
   using: 'docker'
-  image: 'Dockerfile'
+  image: 'docker://ghcr.io/lginc/portainer-stack-deploy'
