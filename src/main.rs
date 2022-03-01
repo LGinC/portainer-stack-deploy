@@ -66,7 +66,10 @@ async fn main() -> Result<(), reqwest::Error> {
         compose = client
             .get(format!(
                 "{}/raw/{}/{}",
-                format!("https://github.com/{}", env::var("GITHUB_REPOSITORY").unwrap()),
+                format!(
+                    "https://github.com/{}",
+                    env::var("GITHUB_REPOSITORY").unwrap()
+                ),
                 env::var("GITHUB_REF").unwrap(),
                 compose_path
             ))
