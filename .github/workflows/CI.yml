@@ -37,11 +37,11 @@ jobs:
 
       - name: copy amd64 binary
         run: cp target/${{ matrix.target }}/release/drone-portainer docker/drone-portainer-amd64
-        if: matrix.target == x86_64-unknown-linux-musl
+        if: matrix.target == 'x86_64-unknown-linux-musl'
 
       - name: copy arm64 binary
         run: cp target/${{ matrix.target }}/release/drone-portainer docker/drone-portainer-arm64
-        if: matrix.target == aarch64-unknown-linux-musl
+        if: matrix.target == 'aarch64-unknown-linux-musl'
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
