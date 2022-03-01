@@ -65,9 +65,9 @@ async fn main() -> Result<(), reqwest::Error> {
     if compose == "" && compose_path != "" && variables.len() > 0 {
         compose = client
             .get(format!(
-                "{}/raw/branch/{}/{}",
-                env::var("DRONE_GIT_HTTP_URL").unwrap(),
-                env::var("DRONE_REPO_BRANCH").unwrap(),
+                "{}/raw/{}/{}",
+                format!("https://github.com/{}", env::var("GITHUB_REPOSITORY").unwrap()),
+                env::var("GITHUB_REF").unwrap(),
                 compose_path
             ))
             .send()
@@ -225,8 +225,8 @@ async fn main() -> Result<(), reqwest::Error> {
                 ))
                 .header(auth_name, auth_value)
                 .json(&serde_json::json!({
-                    "repositoryURL": env::var("DRONE_GIT_HTTP_URL").unwrap(),
-                    "repositoryReferenceName": env::var("DRONE_COMMIT_REF").unwrap(),
+                    "repositoryURL": env::var("GITHUB_REPOSITORY").unwrap(),
+                    "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
                     "composeFile": compose_path,
                     "repositoryAuthentication": repo_password != "",
                     "repositoryUsername": repo_username,
