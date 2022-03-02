@@ -1,6 +1,5 @@
-cargo-features = ["edition2021"]
 [package]
-name = "drone-portainer"
+name = "portainer-deploy"
 version = "0.1.0"
 edition = "2021"
 
