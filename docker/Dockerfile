@@ -1,5 +1,5 @@
 FROM alpine
 ARG TARGETARCH
 ARG TARGETVARIANT
-ADD drone-portainer-$TARGETARCH$TARGETVARIANT /usr/bin/drone-portainer
-ENTRYPOINT ["/usr/bin/drone-portainer"]
+ADD portainer-deploy-$TARGETARCH$TARGETVARIANT /usr/bin/portainer-deploy
+ENTRYPOINT ["/usr/bin/portainer-deploy"]
