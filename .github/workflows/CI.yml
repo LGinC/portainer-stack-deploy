@@ -18,13 +18,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: install openssl
         run: |
-          sudo add-apt-repository universe
-          sudo dpkg --add-architecture i386 
-          sudo apt update
-          sudo apt install gcc-multilib g++-multilib libssl-dev:i386
-          # according to the doc https://docs.rs/openssl/0.10.36/openssl/#manual
-          export OPENSSL_LIB_DIR=/usr/lib/i386-linux-gnu/
-          export OPENSSL_INCLUDE_DIR=/usr/include/openssl/
+          sudo apt update && sudo apt install libssl-dev
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
