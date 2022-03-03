@@ -16,9 +16,6 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - name: install openssl
-        run: |
-          sudo apt update && sudo apt install libssl-dev pkg-config
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
