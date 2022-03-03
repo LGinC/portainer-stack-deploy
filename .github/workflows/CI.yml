@@ -16,6 +16,7 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
+      - run: sudo apt update && sudo apt install libssl-dev
       - uses: actions-rs/toolchain@v1
         with:
           toolchain: stable
@@ -27,7 +28,6 @@ jobs:
         with:
           command: fmt
           args: --all -- --check
-      - run: sudo apt update && sudo apt install libssl-dev -y
       - name: cargo build
         uses: actions-rs/cargo@v1
         with:
