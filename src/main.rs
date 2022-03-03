@@ -16,7 +16,7 @@ fn get_pair_from_env(env: &str) -> Vec<Pair> {
     };
     let envs: Vec<&str> = match env_str.as_str() {
         "" => Vec::new(),
-        v => v.split(',').collect(),
+        v => v.split('\n').collect(),
     };
     let mut re = Vec::<Pair>::new();
     if envs.len() > 0 {
@@ -120,7 +120,7 @@ async fn main() -> Result<(), reqwest::Error> {
             registy_map.insert(r["URL"].as_str().unwrap(), r["Id"].as_i64().unwrap() as i32);
         }
 
-        let images: Vec<&str> = images_str.split(',').collect();
+        let images: Vec<&str> = images_str.split('\n').collect();
         for image in images {
             let mut pull_image_header = reqwest::header::HeaderMap::new();
             pull_image_header.insert(auth_name, auth_value.parse().unwrap());
