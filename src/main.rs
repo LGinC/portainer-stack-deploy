@@ -128,6 +128,9 @@ async fn main() -> Result<(), reqwest::Error> {
 
         let images: Vec<&str> = images_str.split('\n').collect();
         for image in images {
+            if image.trim() == "" {
+                continue;
+            }
             let mut pull_image_header = reqwest::header::HeaderMap::new();
             pull_image_header.insert(auth_name, auth_value.parse().unwrap());
             let registry_name = image.split('/').nth(0).unwrap();
