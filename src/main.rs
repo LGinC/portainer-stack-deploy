@@ -14,6 +14,7 @@ fn get_pair_from_env(env: &str) -> Vec<Pair> {
         Ok(e) => e,
         Err(_) => String::default(),
     };
+    println!("env:{} value:{}", env, env_str);
     let envs: Vec<&str> = match env_str.as_str() {
         "" => Vec::new(),
         v => v.split('\n').collect(),
