@@ -81,14 +81,14 @@ docker-compose in step
     password: ${{ secrets.PORTAINER_PASSWORD }}
     endpointId: 1
     stackname: dotnet_test
-    imagenames: 
-      - xxx/xxx
-      - myhub.com/xx1/xxx
-    variables:
-      - tag=6.0-alpine
-    env:
-      - TZ:Asia/Shanghai
-      - myTag:App
+    imagenames: |
+        xxx/xxx
+        myhub.com/xx1/xxx
+    variables: |
+        tag=6.0-alpine
+    env: |
+        TZ=Asia/Shanghai
+        myTag=App
     docker_compose: |
       version: "3"
       services:
@@ -109,10 +109,11 @@ or
     access_token:  ${{ secrets.PORTAINER_AK }}
     endpointId: 2
     stackname: xxxservice
-    imagenames: 
-      - xxx/xxx
-    env:
-      - myTag:App
+    imagenames: |
+        xxx/xxx
+        myhub.com/xx1/xxx
+    env: |
+        myTag:App
     docker_compose_path: deploy/docker-compose.yaml
     repo_username:  ${{ secrets.REPO_USERNAME }}
     repo_password:  ${{ secrets.REPO_PASSWORD }}

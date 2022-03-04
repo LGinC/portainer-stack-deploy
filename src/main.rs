@@ -14,7 +14,6 @@ fn get_pair_from_env(env: &str) -> Vec<Pair> {
         Ok(e) => e,
         Err(_) => String::default(),
     };
-    println!("env:{} value:{}", env, env_str);
     let envs: Vec<&str> = match env_str.as_str() {
         "" => Vec::new(),
         v => v.split('\n').collect(),
@@ -22,7 +21,13 @@ fn get_pair_from_env(env: &str) -> Vec<Pair> {
     let mut re = Vec::<Pair>::new();
     if envs.len() > 0 {
         for e in envs {
+            if e.trim() == "" {
+                continue;
+            }
             let ep: Vec<&str> = e.split('=').into_iter().collect();
+            if ep.len() != 2 {
+                panic!("cannot split {} by '='", e);
+            }
             re.push(Pair {
                 name: ep[0].trim().to_string(),
                 value: ep[1].trim().to_string(),
