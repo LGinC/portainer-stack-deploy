@@ -234,7 +234,6 @@ async fn main() -> Result<(), reqwest::Error> {
     if compose == "" && compose_path == "" {
         panic!("compose is empty, cannot create stack");
     }
-    if compose == "" {}
     //type: 0: docker compose, 1: docker stack
     //method: file string or repository
     let create_result: serde_json::Value = match compose.as_str() {
