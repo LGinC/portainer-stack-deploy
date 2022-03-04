@@ -51,7 +51,7 @@ docker_compose: |
   version: "3"
   services:
     dotnettest:
-      image:  mcr.microsoft.com/dotnet/core/aspnet:6.0-alpine
+      image:  mcr.microsoft.com/dotnet/aspnet:6.0-alpine
       container_name: dotnet_runtime
 ```
 <br>
@@ -69,7 +69,7 @@ username of git repository<br>
 password of git repository<br>
 可选, git仓库密码
 # Example usage
-The following will pull image mcr.microsoft.com/dotnet/core/aspnet:3.1-alpine, and deploy docker-compose to portainer.</br>
+The following will pull image mcr.microsoft.com/dotnet/aspnet:6.0-alpine, and deploy docker-compose to portainer.</br>
 
 docker-compose in step
 ```yaml
@@ -93,7 +93,7 @@ docker-compose in step
       version: "3"
       services:
         dotnet_test:
-          image:  mcr.microsoft.com/dotnet/core/aspnet:{{ tag }}
+          image:  mcr.microsoft.com/dotnet/aspnet:{{ tag }}
           container_name: dotnet_runtime       
 ```
 
