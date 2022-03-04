@@ -111,7 +111,7 @@ async fn main() -> Result<(), reqwest::Error> {
     }
 
     let endpoint_result = client
-        .get(format!("{}/endpoints/{}", &server, endpoint))
+        .get(format!("{}/api/endpoints/{}", &server, endpoint))
         .header(auth_name, &auth_value)
         .send()
         .await?;
