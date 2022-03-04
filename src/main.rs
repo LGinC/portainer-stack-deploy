@@ -110,6 +110,15 @@ async fn main() -> Result<(), reqwest::Error> {
         auth_value = format!("Bearer {}", &login_result["jwt"].as_str().unwrap());
     }
 
+    let endpoint_result = client
+        .get(format!("{}/endpoints/{}", &server, &endpoint))
+        .header(auth_name, &auth_value)
+        .send()
+        .await?;
+    if endpoint_result.status() == reqwest::StatusCode::NOT_FOUND {
+        panic!("can not found endpoint id is {} ", endpoint);
+    }
+
     //2. pull image
     if images_str != "" {
         println!("pull images: {}", &images_str);
