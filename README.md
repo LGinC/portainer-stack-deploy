@@ -16,9 +16,9 @@ portainer password <br>
 portainer 面板登录所用的密码
 
 ## access_token
-portainer account [access token](https://docs.portainer.io/v/ce-2.11/api/access). login by username password or access_token.<br> 
+portainer account [access token](https://docs.portainer.io/api/access). login by username password or access_token.<br> 
 click on my account in the top right -> Scroll down to the Access tokens section -> click the Add access token.<br>
-可选 portainer账户的 [访问令牌](https://docs.portainer.io/v/ce-2.11/api/access), 登录方式二选一 用户名-密码 或者 访问令牌. <br>
+可选 portainer账户的 [访问令牌](https://docs.portainer.io/api/access), 登录方式二选一 用户名-密码 或者 访问令牌. <br>
 创建访问令牌在 portainer 右上角 myAccount, 下拉到Access Token, 点击 Add access token,输入描述 确定
 
 ## endpointId
