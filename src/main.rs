@@ -65,7 +65,9 @@ async fn main() -> Result<(), reqwest::Error> {
     let images_str = get_env_string("INPUT_IMAGENAMES", None);
     let variables = get_pair_from_env("INPUT_VARIABLES");
     let envs = get_pair_from_env("INPUT_ENV");
-    env_logger::init();
+    env_logger::builder()
+        .filter_level(log::LevelFilter::Debug)
+        .init();
     let client = reqwest::Client::builder().build()?;
 
     //read content of compose_path to compose
