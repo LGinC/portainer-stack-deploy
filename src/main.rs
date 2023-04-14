@@ -66,8 +66,7 @@ async fn main() -> Result<(), reqwest::Error> {
     let variables = get_pair_from_env("INPUT_VARIABLES");
     let envs = get_pair_from_env("INPUT_ENV");
     env_logger::init();
-    let client = reqwest::Client::builder()
-        .build()?;
+    let client = reqwest::Client::builder().build()?;
 
     //read content of compose_path to compose
     if compose == "" && compose_path != "" && variables.len() > 0 {
