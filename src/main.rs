@@ -9,20 +9,6 @@ pub struct Pair {
     value: String,
 }
 
-struct LoggingMiddleware;
-
-impl reqwest::Middleware for LoggingMiddleware {
-    fn send(
-        &self,
-        request: reqwest::Request,
-        client: reqwest::Client,
-    ) -> Result<reqwest::Response, reqwest::Error> {
-        println!("{:?}", request);
-
-        client.send(request)
-    }
-}
-
 fn get_pair_from_env(env: &str) -> Vec<Pair> {
     let env_str = match env::var(env) {
         Ok(e) => e,
@@ -79,8 +65,8 @@ async fn main() -> Result<(), reqwest::Error> {
     let images_str = get_env_string("INPUT_IMAGENAMES", None);
     let variables = get_pair_from_env("INPUT_VARIABLES");
     let envs = get_pair_from_env("INPUT_ENV");
+    env_logger::init();
     let client = reqwest::Client::builder()
-        .middleware(LoggingMiddleware {})
         .build()?;
 
     //read content of compose_path to compose
