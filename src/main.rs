@@ -12,7 +12,7 @@ pub struct Pair {
 struct LoggingMiddleware;
 
 impl Middleware for LoggingMiddleware {
-    fn send(&self, request: Request, client: Client) -> Result<Response, Error> {      
+    fn send(&self, request: Request, client: Client) -> Result<Response, Error> {
         println!("{:?}", request);
 
         client.send(request)
@@ -76,8 +76,8 @@ async fn main() -> Result<(), reqwest::Error> {
     let variables = get_pair_from_env("INPUT_VARIABLES");
     let envs = get_pair_from_env("INPUT_ENV");
     let client = reqwest::Client::builder()
-    .middleware(LoggingMiddleware {})
-    .build()?;
+        .middleware(LoggingMiddleware {})
+        .build()?;
 
     //read content of compose_path to compose
     if compose == "" && compose_path != "" && variables.len() > 0 {
