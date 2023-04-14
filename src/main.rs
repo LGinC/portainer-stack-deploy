@@ -245,7 +245,7 @@ async fn main() -> Result<(), reqwest::Error> {
                 ))
                 .header(auth_name, auth_value)
                 .json(&serde_json::json!({
-                    "repositoryURL": env::var("GITHUB_REPOSITORY").unwrap(),
+                    "repositoryURL": env::var("GITHUB_REPOSITORYURL").unwrap(),
                     "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
                     "composeFile": compose_path,
                     "repositoryAuthentication": repo_password != "",
