@@ -11,7 +11,7 @@ pub struct Pair {
 
 struct LoggingMiddleware;
 
-impl Middleware for LoggingMiddleware {
+impl reqwest::Middleware for LoggingMiddleware {
     fn send(
         &self,
         request: reqwest::Request,
