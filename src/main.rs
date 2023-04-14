@@ -12,7 +12,11 @@ pub struct Pair {
 struct LoggingMiddleware;
 
 impl Middleware for LoggingMiddleware {
-    fn send(&self, request: Request, client: Client) -> Result<Response, Error> {
+    fn send(
+        &self,
+        request: reqwest::Request,
+        client: reqwest::Client,
+    ) -> Result<reqwest::Response, reqwest::Error> {
         println!("{:?}", request);
 
         client.send(request)
