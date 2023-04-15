@@ -239,17 +239,19 @@ async fn main() -> Result<(), reqwest::Error> {
     }
     //type: 0: docker compose, 1: docker stack
     //method: file string or repository
-    let create_json = &serde_json::json!({
-        "repositoryURL": env::var("GITHUB_REPOSITORY").unwrap(),
-        "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
-        "composeFile": compose_path,
-        // "repositoryAuthentication": repo_password != "",
-        "repositoryUsername": repo_username,
-        "repositoryPassword": repo_password,
-        "Env": envs,
-        "Name": &stack_name,
-    });
-    println!("{}", &create_json);
+
+    // let create_json = &serde_json::json!({
+    //     "repositoryURL": format!("https://github.com/{}",env::var("GITHUB_REPOSITORY").unwrap()),
+    //     "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
+    //     "composeFile": compose_path,
+    //     // "repositoryAuthentication": repo_password != "",
+    //     "repositoryUsername": repo_username,
+    //     "repositoryPassword": repo_password,
+    //     "Env": envs,
+    //     "Name": &stack_name,
+    // });
+    // println!("{}", &create_json);
+
     let create_result: serde_json::Value = match compose.as_str() {
         "" => {
             client
@@ -258,7 +260,16 @@ async fn main() -> Result<(), reqwest::Error> {
                     &server, endpoint
                 ))
                 .header(auth_name, auth_value)
-                .json(create_json)
+                .json(&serde_json::json!({
+                    "repositoryURL": format!("https://github.com/{}",env::var("GITHUB_REPOSITORY").unwrap()),
+                    "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
+                    "composeFile": compose_path,
+                    // "repositoryAuthentication": repo_password != "",
+                    "repositoryUsername": repo_username,
+                    "repositoryPassword": repo_password,
+                    "Env": envs,
+                    "Name": &stack_name,
+                }))
                 .send()
                 .await?
                 .json()
@@ -285,7 +296,11 @@ async fn main() -> Result<(), reqwest::Error> {
     };
     match create_result["message"].as_str() {
         Some(msg) => {
-            println!("create stack failed: {}", msg);
+            println!(
+                "create stack failed: {} {}",
+                msg,
+                create_result["detail"].as_str().unwrap_or_default()
+            );
             panic!("create stack failed");
         }
         None => println!("create stack success"),
