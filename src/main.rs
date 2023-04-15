@@ -239,6 +239,17 @@ async fn main() -> Result<(), reqwest::Error> {
     }
     //type: 0: docker compose, 1: docker stack
     //method: file string or repository
+    let create_json = &serde_json::json!({
+        "repositoryURL": env::var("GITHUB_REPOSITORYURL").unwrap(),
+        "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
+        "composeFile": compose_path,
+        "repositoryAuthentication": repo_password != "",
+        "repositoryUsername": repo_username,
+        "repositoryPassword": repo_password,
+        "Env": envs,
+        "Name": &stack_name,
+    });
+    //println!("{}", &create_json);
     let create_result: serde_json::Value = match compose.as_str() {
         "" => {
             client
@@ -247,16 +258,7 @@ async fn main() -> Result<(), reqwest::Error> {
                     &server, endpoint
                 ))
                 .header(auth_name, auth_value)
-                .json(&serde_json::json!({
-                    "repositoryURL": env::var("GITHUB_REPOSITORYURL").unwrap(),
-                    "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
-                    "composeFile": compose_path,
-                    "repositoryAuthentication": repo_password != "",
-                    "repositoryUsername": repo_username,
-                    "repositoryPassword": repo_password,
-                    "Env": envs,
-                    "Name": &stack_name,
-                }))
+                .json(create_json)
                 .send()
                 .await?
                 .json()
