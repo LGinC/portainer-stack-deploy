@@ -296,11 +296,7 @@ async fn main() -> Result<(), reqwest::Error> {
     };
     match create_result["message"].as_str() {
         Some(msg) => {
-            println!(
-                "create stack failed: {} {}",
-                msg,
-                create_result["detail"].as_str().unwrap_or_default()
-            );
+            println!("create stack failed: {} {}", msg, create_result["details"]);
             panic!("create stack failed");
         }
         None => println!("create stack success"),
