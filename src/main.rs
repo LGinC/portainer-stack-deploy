@@ -240,7 +240,7 @@ async fn main() -> Result<(), reqwest::Error> {
     //type: 0: docker compose, 1: docker stack
     //method: file string or repository
     let create_json = &serde_json::json!({
-        "repositoryURL": env::var("GITHUB_REPOSITORYURL").unwrap(),
+        "repositoryURL": env::var("GITHUB_REPOSITORY").unwrap(),
         "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
         "composeFile": compose_path,
         // "repositoryAuthentication": repo_password != "",
