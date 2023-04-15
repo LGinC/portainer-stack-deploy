@@ -218,7 +218,9 @@ async fn main() -> Result<(), reqwest::Error> {
                 "id": stack_id,
                 "StackFileContent": &compose,
                 "Env": envs,
-                "Prune": false}))
+                "pullImage": true,
+                "Prune": false
+            }))
             .send()
             .await?
             .json()
@@ -251,7 +253,6 @@ async fn main() -> Result<(), reqwest::Error> {
     //     "Name": &stack_name,
     // });
     // println!("{}", &create_json);
-
     let create_result: serde_json::Value = match compose.as_str() {
         "" => {
             client
@@ -261,12 +262,12 @@ async fn main() -> Result<(), reqwest::Error> {
                 ))
                 .header(auth_name, auth_value)
                 .json(&serde_json::json!({
+                    "repositoryAuthentication": repo_password != "",
+                    "repositoryUsername": repo_username,
+                    "repositoryPassword": repo_password,
                     "repositoryURL": format!("https://github.com/{}",env::var("GITHUB_REPOSITORY").unwrap()),
                     "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
                     "composeFile": compose_path,
-                    // "repositoryAuthentication": repo_password != "",
-                    "repositoryUsername": repo_username,
-                    "repositoryPassword": repo_password,
                     "Env": envs,
                     "Name": &stack_name,
                 }))
