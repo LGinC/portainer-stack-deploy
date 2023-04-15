@@ -255,7 +255,7 @@ async fn main() -> Result<(), reqwest::Error> {
     // println!("{}", &create_json);
     let create_result: serde_json::Value = match compose.as_str() {
         "" => {
-            client
+            let create_response = client
                 .post(format!(
                     "{}/api/stacks?endpointId={}&method=repository&type=2",
                     &server, endpoint
@@ -263,9 +263,9 @@ async fn main() -> Result<(), reqwest::Error> {
                 .header(auth_name, auth_value)
                 .json(create_json)
                 .send()
-                .await?
-                .json()
-                .await?
+                .await?;
+            log::info!("{:?}", create_response);
+            create_response.json().await?
         }
 
         c => {
