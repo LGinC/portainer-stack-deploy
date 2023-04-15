@@ -243,7 +243,7 @@ async fn main() -> Result<(), reqwest::Error> {
         "repositoryURL": env::var("GITHUB_REPOSITORYURL").unwrap(),
         "repositoryReferenceName": env::var("GITHUB_REF").unwrap(),
         "composeFile": compose_path,
-        "repositoryAuthentication": repo_password != "",
+        // "repositoryAuthentication": repo_password != "",
         "repositoryUsername": repo_username,
         "repositoryPassword": repo_password,
         "Env": envs,
