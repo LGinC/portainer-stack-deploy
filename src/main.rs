@@ -249,7 +249,7 @@ async fn main() -> Result<(), reqwest::Error> {
         "Env": envs,
         "Name": &stack_name,
     });
-    //println!("{}", &create_json);
+    println!("{}", &create_json);
     let create_result: serde_json::Value = match compose.as_str() {
         "" => {
             client
